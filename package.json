@@ -2,10 +2,12 @@
   "name": "naver-searchad-mcp",
   "version": "1.0.0",
   "type": "module",
+  "main": "./cli.js",
   "bin": {
     "naver-searchad-mcp": "./cli.js"
   },
   "dependencies": {
+    "@anthropic-ai/model-context-protocol": "^0.1.5",
     "axios": "^1.3.4"
   }
 }
