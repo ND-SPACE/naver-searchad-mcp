@@ -1,0 +1,41 @@
+{
+  "title": "Naver SearchAd MCP",
+  "description": "네이버 검색광고 API와 연동되는 Claude MCP 액션 모음입니다.",
+  "actions": [
+    {
+      "name": "list_campaigns",
+      "description": "캠페인 목록을 조회합니다.",
+      "file": "actions/list_campaigns.js"
+    },
+    {
+      "name": "create_campaign",
+      "description": "새로운 네이버 캠페인을 생성합니다.",
+      "file": "actions/create_campaign.js"
+    },
+    {
+      "name": "get_adgroup",
+      "description": "특정 광고그룹 정보를 조회합니다.",
+      "file": "actions/get_adgroup.js"
+    },
+    {
+      "name": "create_adgroup",
+      "description": "광고그룹을 생성합니다.",
+      "file": "actions/create_adgroup.js"
+    },
+    {
+      "name": "create_keyword",
+      "description": "키워드를 광고그룹에 추가합니다.",
+      "file": "actions/create_keyword.js"
+    },
+    {
+      "name": "list_keywords",
+      "description": "광고그룹에 등록된 키워드 목록을 조회합니다.",
+      "file": "actions/list_keywords.js"
+    },
+    {
+      "name": "delete_campaign",
+      "description": "캠페인을 삭제합니다.",
+      "file": "actions/delete_campaign.js"
+    }
+  ]
+} 
