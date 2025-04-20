@@ -13,7 +13,7 @@ Claude Desktop 설정 파일에 MCP 서버를 자동으로 등록하려면 아�
   "mcpServers": {
     "naver-searchad-mcp": {
       "command": "npx",
-      "args": ["-y", "github:your-github-id/naver-searchad-mcp"],
+      "args": ["-y", "github:ND-SPACE/naver-searchad-mcp"],
       "env": {
         "NAVER_API_KEY": "발급받은_네이버_API_키",
         "NAVER_CUSTOMER_ID": "광고주_ID"
