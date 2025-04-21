@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import readline from 'readline';
 import manifest from './manifest.json' with { type: 'json' };
 import path from 'path';
@@ -8,13 +7,13 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-const send = (msg) => process.stdout.write(JSON.stringify(msg) + '\n');
+const send = msg => process.stdout.write(JSON.stringify(msg) + '\n');
 
-// Claude가 접속하면 manifest 먼저 응답
+// 1) 초기 manifest 응답
 send({ jsonrpc: '2.0', result: manifest, id: 0 });
 
-// 이후 runAction 요청 처리
-rl.on('line', async (line) => {
+// 2) runAction 요청 처리 루프
+rl.on('line', async line => {
   try {
     const msg = JSON.parse(line);
     if (msg.method === 'runAction') {
