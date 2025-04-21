@@ -1,21 +1,31 @@
 #!/usr/bin/env node
-import { createServer } from '@anthropic-ai/model-context-protocol/server';
-import manifest from './manifest.json' with { type: 'json' };
 
-// 모든 액션을 동적으로 불러오기
-import fs from 'fs';
+import readline from 'readline';
+import manifest from './manifest.json' with { type: 'json' };
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const actionsDir = path.join(__dirname, 'actions');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const send = (msg) => process.stdout.write(JSON.stringify(msg) + '\n');
 
-const actions = {};
-const files = fs.readdirSync(actionsDir).filter(f => f.endsWith('.js'));
+// Claude가 접속하면 manifest 먼저 응답
+send({ jsonrpc: '2.0', result: manifest, id: 0 });
 
-for (const file of files) {
-  const action = await import(path.join(actionsDir, file));
-  actions[action.default.name] = action.default.run;
-}
-
-createServer({ manifest, actions }).start();
+// 이후 runAction 요청 처리
+rl.on('line', async (line) => {
+  try {
+    const msg = JSON.parse(line);
+    if (msg.method === 'runAction') {
+      const { actionName, params } = msg.params;
+      const file = path.join(__dirname, 'actions', `${actionName}.js`);
+      if (!fs.existsSync(file)) throw new Error('Action not found');
+      const mod = await import(file);
+      const result = await mod.default.run(params);
+      send({ jsonrpc: '2.0', result, id: msg.id });
+    }
+  } catch (err) {
+    send({ jsonrpc: '2.0', error: { message: err.message }, id: null });
+  }
+});
